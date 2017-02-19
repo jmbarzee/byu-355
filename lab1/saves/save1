@@ -1,0 +1,206 @@
+[
+  {
+    "center": {
+      "x": 217.0,
+      "y": 260.0
+    },
+    "radius": 147.0,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 308.0,
+      "y": 161.0
+    },
+    "radius": 35.0,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 386.5,
+      "y": 51.5
+    },
+    "radius": 7.5,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 250.5,
+      "y": 144.5
+    },
+    "radius": 14.5,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 208.0,
+      "y": 76.0
+    },
+    "radius": 21.0,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 88.0,
+      "y": 91.0
+    },
+    "radius": 0.0,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 24.5,
+      "y": 171.5
+    },
+    "radius": 4.5,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 122.0,
+      "y": 301.0
+    },
+    "radius": 86.0,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 237.0,
+      "y": 414.0
+    },
+    "radius": 26.0,
+    "color": {
+      "value": -10053376,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 300.0,
+      "y": 327.0
+    },
+    "radius": 1.0,
+    "color": {
+      "value": -52480,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 313.0,
+      "y": 206.0
+    },
+    "radius": 68.0,
+    "color": {
+      "value": -52480,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 278.0,
+      "y": 385.0
+    },
+    "radius": 79.0,
+    "color": {
+      "value": -52480,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 289.0,
+      "y": 319.0
+    },
+    "radius": 31.0,
+    "color": {
+      "value": -10079233,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 204.0,
+      "y": 142.0
+    },
+    "radius": 78.0,
+    "color": {
+      "value": -10079233,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 81.0,
+      "y": 246.0
+    },
+    "radius": 49.0,
+    "color": {
+      "value": -10079233,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 196.5,
+      "y": 318.5
+    },
+    "radius": 5.5,
+    "color": {
+      "value": -6710785,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "center": {
+      "x": 328.5,
+      "y": 164.5
+    },
+    "radius": 78.5,
+    "color": {
+      "value": -6710785,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "upperLeft": {
+      "x": 165.0,
+      "y": 159.0
+    },
+    "size": 201.0,
+    "color": {
+      "value": -13421569,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Square"
+  }
+]

@@ -1,0 +1,69 @@
+[
+  {
+    "upperLeft": {
+      "x": 165.0,
+      "y": 159.0
+    },
+    "size": 201.0,
+    "color": {
+      "value": -13421569,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Square"
+  },
+  {
+    "upperLeft": {
+      "x": 140.0,
+      "y": 98.0
+    },
+    "size": 74.0,
+    "color": {
+      "value": -3394816,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Square"
+  },
+  {
+    "upperLeft": {
+      "x": 334.0,
+      "y": 362.0
+    },
+    "size": 86.0,
+    "color": {
+      "value": -3394816,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Square"
+  },
+  {
+    "center": {
+      "x": 296.5,
+      "y": 260.5
+    },
+    "radius": 119.5,
+    "color": {
+      "value": -10027162,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Circle"
+  },
+  {
+    "a": {
+      "x": 161.0,
+      "y": 70.0
+    },
+    "b": {
+      "x": 245.0,
+      "y": 232.0
+    },
+    "c": {
+      "x": 337.0,
+      "y": 51.0
+    },
+    "color": {
+      "value": -3355648,
+      "falpha": 0.0
+    },
+    "SHAPE_TYPE": "cs355.model.drawing.Triangle"
+  }
+]
