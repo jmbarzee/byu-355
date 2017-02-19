@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 

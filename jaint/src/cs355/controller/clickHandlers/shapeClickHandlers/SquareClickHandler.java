@@ -3,7 +3,6 @@ package cs355.controller.clickHandlers.shapeClickHandlers;
 import java.awt.geom.Point2D;
 
 import cs355.controller.TheController;
-import cs355.model.drawing.Rectangle;
 import cs355.model.drawing.Shape;
 import cs355.model.drawing.Square;
 

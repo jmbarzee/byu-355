@@ -1,14 +1,11 @@
 package cs355.model.drawing;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import cs355.GUIFunctions;
 import cs355.model.collisionChecker.CollisionChecker;
-import cs355.view.drawer.DrawingFactory;
 
 public class TheModel extends CS355Drawing {
 	

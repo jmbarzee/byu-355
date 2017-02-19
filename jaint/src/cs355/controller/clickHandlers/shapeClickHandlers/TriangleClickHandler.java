@@ -1,11 +1,9 @@
 package cs355.controller.clickHandlers.shapeClickHandlers;
 
 import java.awt.Color;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import cs355.GUIFunctions;
 import cs355.controller.TheController;
 import cs355.model.drawing.Shape;
 import cs355.model.drawing.Triangle;
@@ -21,8 +19,8 @@ public class TriangleClickHandler extends ShapeClickHandler {
 	protected Point2D.Double middlePoint;
 	protected Point2D.Double finalPoint;
 	
-	public void mousePressed(MouseEvent e) {}
-	public void mouseReleased(MouseEvent e) {}
+	public void mousePressed(Point2D.Double wLoc) {}
+	public void mouseReleased(Point2D.Double wLoc) {}
 	
 	private Point2D.Double averagePoints(Point2D.Double a, Point2D.Double b, Point2D.Double c) {
 		Double xAvg = (a.getX() + b.getX() + c.getX()) / 3;
@@ -59,17 +57,17 @@ public class TriangleClickHandler extends ShapeClickHandler {
 		return new Triangle(theController.getColor(), center, firstRel, middleRel, finalRel);
 	}
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(Point2D.Double wLoc) {
 		if (firstPoint == null) {
-			firstPoint = new Point2D.Double(e.getX(), e.getY());
+			firstPoint = wLoc;
 			lastPoint = firstPoint;
 			tempShapeToModel();
 		} else if (middlePoint == null) {
-			middlePoint = new Point2D.Double(e.getX(), e.getY());
+			middlePoint = wLoc;
 			lastPoint = middlePoint;
 			tempShapeToModel();
 		} else {
-			finalPoint = new Point2D.Double(e.getX(), e.getY());
+			finalPoint = wLoc;
 			lastPoint = finalPoint;
 			saveShapeToModel();
 			clean();

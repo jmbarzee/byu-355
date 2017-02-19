@@ -15,7 +15,6 @@ import cs355.controller.clickHandlers.shapeClickHandlers.CircleClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.EllipseClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.LineClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.RectangleClickHandler;
-import cs355.controller.clickHandlers.shapeClickHandlers.ShapeClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.SquareClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.TriangleClickHandler;
 import cs355.model.collisionChecker.CollisionChecker;
@@ -56,49 +55,49 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	public void mouseClicked(MouseEvent e) {
 		if (handler == null)
 			return;
-		handler.mouseClicked(e);
+		handler.mouseClicked(pointFromEvent(e));
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (handler == null)
 			return;
-		handler.mousePressed(e);
+		handler.mousePressed(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (handler == null)
 			return;
-		handler.mouseReleased(e);
+		handler.mouseReleased(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		if (handler == null)
 			return;
-		handler.mouseEntered(e);
+		handler.mouseEntered(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		if (handler == null)
 			return;
-		handler.mouseExited(e);
+		handler.mouseExited(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (handler == null)
 			return;
-		handler.mouseDragged(e);
+		handler.mouseDragged(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		if (handler == null)
 			return;
-		handler.mouseMoved(e);
+		handler.mouseMoved(pointFromEvent(e));
 	}
 
 	@Override
@@ -320,6 +319,10 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 			this.color = TheModel.inst().getShape(selectedShape).getColor();
 			GUIFunctions.changeSelectedColor(this.color);
 		}
+	}
+	
+	private Point2D.Double pointFromEvent(MouseEvent e) {
+		return new Point2D.Double(e.getX(), e.getY());
 	}
 
 }

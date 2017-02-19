@@ -1,6 +1,5 @@
 package cs355.controller.clickHandlers;
 
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -22,8 +21,8 @@ public class SelectionClickHandler extends ClickHandler {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		lastClick = new Point2D.Double(e.getX(), e.getY());
+	public void mousePressed(Point2D.Double wLoc) {
+		lastClick = wLoc;
 		Shape s = theController.getSelectedShape();
 		
 		if (s != null) {
@@ -37,15 +36,15 @@ public class SelectionClickHandler extends ClickHandler {
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(Point2D.Double wLoc) {
 		handle = null;
 		lastClick = null;
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
+	public void mouseDragged(Point2D.Double wLoc) {
 		Shape s = theController.getSelectedShape();
-		Point2D.Double click = new Point2D.Double(e.getX(), e.getY());
+		Point2D.Double click = wLoc;
 		if (s == null)
 			return;
 		if (handle == null) {
@@ -60,13 +59,13 @@ public class SelectionClickHandler extends ClickHandler {
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {
+	public void mouseMoved(Point2D.Double wLoc) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(Point2D.Double wLoc) {
 	}
 
 	@Override

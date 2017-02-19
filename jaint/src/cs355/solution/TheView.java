@@ -1,7 +1,6 @@
 package cs355.solution;
 
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.util.Observable;
 
 import cs355.GUIFunctions;

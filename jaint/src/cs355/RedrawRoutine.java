@@ -1,6 +1,5 @@
 package cs355;
 
-import cs355.view.ViewRefresher;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import cs355.view.ViewRefresher;
 
 /**
  * A set of logic for redrawing the screen. Underneath the hood, this is

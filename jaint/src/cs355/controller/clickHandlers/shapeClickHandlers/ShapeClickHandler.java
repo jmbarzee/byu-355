@@ -1,6 +1,5 @@
 package cs355.controller.clickHandlers.shapeClickHandlers;
 
-import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import cs355.controller.TheController;
@@ -17,21 +16,17 @@ public abstract class ShapeClickHandler extends ClickHandler{
 	}
 	
 
-	public void mouseDragged(MouseEvent e) {
-		lastPoint = new Point2D.Double(e.getX(), e.getY());
+	public void mouseDragged(Point2D.Double wLoc) {
+		lastPoint = wLoc;
 		tempShapeToModel();
 	}
 	
-	public void mouseMoved(MouseEvent e) {
-		lastPoint = new Point2D.Double(e.getX(), e.getY());
+	public void mouseMoved(Point2D.Double wLoc) {
+		lastPoint = wLoc;
 		tempShapeToModel();
 	}
 
-	public void mouseClicked(MouseEvent e) {}
-
-	public abstract void mousePressed(MouseEvent e);
-
-	public abstract void mouseReleased(MouseEvent e);
+	public void mouseClicked(Point2D.Double wLoc) {}
 	
 	public abstract Shape buildShape();
 

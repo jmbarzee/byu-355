@@ -1,8 +1,9 @@
 package cs355;
 
-import cs355.view.ViewRefresher;
-import cs355.controller.CS355Controller;
 import java.awt.Color;
+
+import cs355.controller.CS355Controller;
+import cs355.view.ViewRefresher;
 
 /**
  * A collection of static functions that allow the

@@ -1,8 +1,5 @@
 package cs355;
 
-import cs355.controller.CS355Controller;
-import cs355.model.image.CS355Image;
-import cs355.view.ViewRefresher;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -18,11 +15,16 @@ import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+
+import cs355.controller.CS355Controller;
+import cs355.model.image.CS355Image;
+import cs355.view.ViewRefresher;
 
 /**
  * This is the main window of the app. This implements MouseListener

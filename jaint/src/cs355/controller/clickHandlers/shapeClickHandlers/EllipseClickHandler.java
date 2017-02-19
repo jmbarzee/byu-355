@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 
 import cs355.controller.TheController;
 import cs355.model.drawing.Ellipse;
-import cs355.model.drawing.Rectangle;
 import cs355.model.drawing.Shape;
 
 public class EllipseClickHandler extends DragShapeClickHandler {

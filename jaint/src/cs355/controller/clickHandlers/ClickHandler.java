@@ -1,11 +1,8 @@
 package cs355.controller.clickHandlers;
 
-import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import cs355.controller.TheController;
-import cs355.model.drawing.Shape;
-import cs355.model.drawing.TheModel;
 
 public abstract class ClickHandler{
 	
@@ -16,19 +13,19 @@ public abstract class ClickHandler{
 	}
 	
 
-	public abstract void mouseDragged(MouseEvent e);
+	public abstract void mouseDragged(Point2D.Double wLoc);
 	
-	public abstract void mouseMoved(MouseEvent e);
+	public abstract void mouseMoved(Point2D.Double wLoc);
 
-	public abstract void mouseClicked(MouseEvent e);
+	public abstract void mouseClicked(Point2D.Double wLoc);
 	
-	public void mouseEntered(MouseEvent e){}
+	public void mouseEntered(Point2D.Double wLoc){}
 	
-	public void mouseExited(MouseEvent e){}
+	public void mouseExited(Point2D.Double wLoc){}
 
-	public abstract void mousePressed(MouseEvent e);
+	public abstract void mousePressed(Point2D.Double wLoc);
 
-	public abstract void mouseReleased(MouseEvent e);
+	public abstract void mouseReleased(Point2D.Double wLoc);
 
 	public abstract void clean();
 }
