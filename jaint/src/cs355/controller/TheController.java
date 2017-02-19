@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.Iterator;
@@ -34,11 +35,20 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	private TheController() {
 		color = new Color(0);
 		handler = new LineClickHandler(this);
+		selectedShapePos = 0;
+		xTrans = 0;
+		yTrans = 0;
+		zoom = 0;
+		screenMoving = false;
 	}
 	
 	private ClickHandler handler;
 	private Color color;
 	private Integer selectedShapePos;
+	private double xTrans;
+	private double yTrans;
+	private double zoom;
+	private boolean screenMoving;
 	
 	public Integer checkHandle(Point2D.Double loc) {
 		if (selectedShapePos == null)
@@ -149,26 +159,38 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 
 	@Override
 	public void zoomInButtonHit() {
-		// TODO Auto-generated method stub
-		
+		if (screenMoving)
+			return;
+		screenMoving = true;
+		setZoom(getZoom()*2);
+		screenMoving = false;
 	}
 
 	@Override
 	public void zoomOutButtonHit() {
-		// TODO Auto-generated method stub
-		
+		if (screenMoving)
+			return;
+		screenMoving = true;
+		setZoom(getZoom()/2);
+		screenMoving = false;
 	}
 
 	@Override
 	public void hScrollbarChanged(int value) {
+		if (screenMoving)
+			return;
+		screenMoving = true;
 		// TODO Auto-generated method stub
-		
+		screenMoving = false;
 	}
 
 	@Override
 	public void vScrollbarChanged(int value) {
+		if (screenMoving)
+			return;
+		screenMoving = true;
 		// TODO Auto-generated method stub
-		
+		screenMoving = false;
 	}
 
 	@Override
@@ -322,7 +344,33 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	}
 	
 	private Point2D.Double pointFromEvent(MouseEvent e) {
-		return new Point2D.Double(e.getX(), e.getY());
+		Point2D.Double sLoc = new Point2D.Double(e.getX(), e.getY());
+		AffineTransform screenToWorld = new AffineTransform();
+		Point2D.Double wLoc = new Point2D.Double();
+		screenToWorld.scale(this.zoom, this.zoom);
+		screenToWorld.transform(sLoc, wLoc);
+		return wLoc;
+	}
+
+	public double getZoom() {
+		return zoom;
+	}
+
+	public void setZoom(double zoom) {
+		screenMoving = true;
+		if (zoom < .25)
+			this.zoom = 0.25;
+		else if (zoom > 4)
+			this.zoom = 4;
+		else
+			this.zoom = zoom;
+		System.out.println("Zoom: " + this.zoom);
+		GUIFunctions.refresh();
+		screenMoving = false;
+	}
+
+	public boolean isScreenMoving() {
+		return screenMoving;
 	}
 
 }

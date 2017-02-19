@@ -37,12 +37,7 @@ public class TriangleClickHandler extends ShapeClickHandler {
 		Point2D.Double firstPoint = this.firstPoint;
 		Point2D.Double middlePoint = (this.middlePoint == null) ? lastPoint : this.middlePoint;
 		Point2D.Double finalPoint = (this.finalPoint == null) ? lastPoint : this.finalPoint;
-		System.out.println("firstPoint " + firstPoint.toString());
-		System.out.println("middlePoint " + middlePoint.toString());
-		System.out.println("finalPoint " + finalPoint.toString());
 		Point2D.Double center = averagePoints(firstPoint, middlePoint, finalPoint);
-		System.out.println("center " + center.toString());
-		System.out.println();
 
 		Double firstRelativeX = firstPoint.getX() - center.getX();
 		Double firstRelativeY = firstPoint.getY() - center.getY();
