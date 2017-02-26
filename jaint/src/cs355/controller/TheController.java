@@ -20,11 +20,14 @@ import cs355.controller.clickHandlers.shapeClickHandlers.SquareClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.TriangleClickHandler;
 import cs355.model.collisionChecker.CollisionChecker;
 import cs355.model.drawing.Shape;
+import cs355.model.drawing.Square;
 import cs355.model.drawing.TheModel;
 
 public class TheController implements CS355Controller, MouseListener, MouseMotionListener{
 
 	private static TheController inst;
+	public static int worldSize = 2048;
+	public static int swRatio = 4;
 	
 	public static TheController inst() {
 		if (TheController.inst == null)
@@ -35,25 +38,25 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	private TheController() {
 		color = new Color(0);
 		handler = new LineClickHandler(this);
-		selectedShapePos = 0;
-		xTrans = 0;
-		yTrans = 0;
-		zoom = 0;
-		screenMoving = false;
+		selShapePos = null;
+		transX = (worldSize - (worldSize / swRatio)) / 2;
+		transY = (worldSize - (worldSize / swRatio)) / 2;
+		zoom = swRatio;
+		vPortMoving = false;
 	}
 	
 	private ClickHandler handler;
 	private Color color;
-	private Integer selectedShapePos;
-	private double xTrans;
-	private double yTrans;
+	private Integer selShapePos;
+	private double transX;
+	private double transY;
 	private double zoom;
-	private boolean screenMoving;
+	private boolean vPortMoving;
 	
 	public Integer checkHandle(Point2D.Double loc) {
-		if (selectedShapePos == null)
+		if (selShapePos == null)
 			return null;
-		return CollisionChecker.checkHandle(TheModel.inst().getShape(selectedShapePos), loc);
+		return CollisionChecker.checkHandle(TheModel.inst().getShape(selShapePos), loc);
 	}
 	
 	private void swapHandler(ClickHandler h) {
@@ -114,8 +117,8 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	public void colorButtonHit(Color c) {
 		GUIFunctions.changeSelectedColor(c);
 		color = c;
-		if (this.selectedShapePos != null) {
-			TheModel.inst().getShape(this.selectedShapePos).setColor(c);
+		if (this.selShapePos != null) {
+			TheModel.inst().getShape(this.selShapePos).setColor(c);
 			GUIFunctions.refresh();
 		}
 	}
@@ -159,38 +162,42 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 
 	@Override
 	public void zoomInButtonHit() {
-		if (screenMoving)
+		if (vPortMoving)
 			return;
-		screenMoving = true;
+		vPortMoving = true;
 		setZoom(getZoom()*2);
-		screenMoving = false;
+		vPortMoving = false;
 	}
 
 	@Override
 	public void zoomOutButtonHit() {
-		if (screenMoving)
+		if (vPortMoving)
 			return;
-		screenMoving = true;
+		vPortMoving = true;
 		setZoom(getZoom()/2);
-		screenMoving = false;
+		vPortMoving = false;
 	}
 
 	@Override
 	public void hScrollbarChanged(int value) {
-		if (screenMoving)
+		if (vPortMoving)
 			return;
-		screenMoving = true;
-		// TODO Auto-generated method stub
-		screenMoving = false;
+		vPortMoving = true;
+		System.out.println("Hval: " + value);
+		this.transX = value;
+		GUIFunctions.refresh();
+		vPortMoving = false;
 	}
 
 	@Override
 	public void vScrollbarChanged(int value) {
-		if (screenMoving)
+		if (vPortMoving)
 			return;
-		screenMoving = true;
-		// TODO Auto-generated method stub
-		screenMoving = false;
+		vPortMoving = true;
+		System.out.println("Vval: " + value);
+		this.transY = value;
+		GUIFunctions.refresh();
+		vPortMoving = false;
 	}
 
 	@Override
@@ -239,10 +246,10 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 
 	@Override
 	public void doDeleteShape() {
-		if (selectedShapePos == null)
+		if (selShapePos == null)
 			return;
-		int pos = selectedShapePos;
-		selectedShapePos = null;
+		int pos = selShapePos;
+		selShapePos = null;
 		TheModel.inst().deleteShape(pos);
 	}
 
@@ -290,38 +297,43 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 
 	@Override
 	public void doMoveForward() {
-		if (selectedShapePos == null)
+		if (selShapePos == null)
 			return;
-		Shape s = TheModel.inst().getShape(selectedShapePos);
-		TheModel.inst().moveForward(selectedShapePos);
-		selectedShapePos = TheModel.inst().getShapePos(s);
+		int size = TheModel.inst().getShapes().size();
+		int oldShapePos =  (selShapePos + 1 < size) ? selShapePos++ : selShapePos;
+		Shape s = TheModel.inst().getShape(oldShapePos);
+		TheModel.inst().moveForward(oldShapePos);
+		selShapePos = TheModel.inst().getShapePos(s);
 	}
 
 	@Override
 	public void doMoveBackward() {
-		if (selectedShapePos == null)
+		if (selShapePos == null)
 			return;
-		Shape s = TheModel.inst().getShape(selectedShapePos);
-		TheModel.inst().moveBackward(selectedShapePos);
-		selectedShapePos = TheModel.inst().getShapePos(s);
+		int oldShapePos =  (selShapePos - 1 > -1) ? selShapePos-- : selShapePos;
+		Shape s = TheModel.inst().getShape(oldShapePos);
+		TheModel.inst().moveBackward(oldShapePos);
+		selShapePos = TheModel.inst().getShapePos(s);
 	}
 
 	@Override
 	public void doSendToFront() {
-		if (selectedShapePos == null)
+		if (selShapePos == null)
 			return;
-		Shape s = TheModel.inst().getShape(selectedShapePos);
-		TheModel.inst().moveToFront(selectedShapePos);
-		selectedShapePos = TheModel.inst().getShapePos(s);
+		int size = TheModel.inst().getShapes().size();
+		int oldShapePos =  selShapePos = size - 1;
+		Shape s = TheModel.inst().getShape(oldShapePos);
+		TheModel.inst().moveToFront(oldShapePos);
+		selShapePos = TheModel.inst().getShapePos(s);
 	}
 
 	@Override
 	public void doSendtoBack() {
-		if (selectedShapePos == null)
+		if (selShapePos == null)
 			return;
-		Shape s = TheModel.inst().getShape(selectedShapePos);
-		TheModel.inst().movetoBack(selectedShapePos);
-		selectedShapePos = TheModel.inst().getShapePos(s);
+		Shape s = TheModel.inst().getShape(selShapePos);
+		TheModel.inst().movetoBack(selShapePos);
+		selShapePos = TheModel.inst().getShapePos(s);
 	}
 	
 	public Color getColor() {
@@ -329,13 +341,13 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	}
 
 	public Shape getSelectedShape() {
-		if (selectedShapePos != null)
-			return TheModel.inst().getShape(selectedShapePos);
+		if (selShapePos != null)
+			return TheModel.inst().getShape(selShapePos);
 		return null;
 	}
 
 	public void setSelectedShape(Integer selectedShape) {
-		this.selectedShapePos = selectedShape;
+		this.selShapePos = selectedShape;
 		GUIFunctions.refresh();
 		if (selectedShape != null) {
 			this.color = TheModel.inst().getShape(selectedShape).getColor();
@@ -345,10 +357,8 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	
 	private Point2D.Double pointFromEvent(MouseEvent e) {
 		Point2D.Double sLoc = new Point2D.Double(e.getX(), e.getY());
-		AffineTransform screenToWorld = new AffineTransform();
 		Point2D.Double wLoc = new Point2D.Double();
-		screenToWorld.scale(this.zoom, this.zoom);
-		screenToWorld.transform(sLoc, wLoc);
+		getScreenToWorld().transform(sLoc, wLoc);
 		return wLoc;
 	}
 
@@ -357,20 +367,83 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	}
 
 	public void setZoom(double zoom) {
-		screenMoving = true;
-		if (zoom < .25)
-			this.zoom = 0.25;
-		else if (zoom > 4)
-			this.zoom = 4;
+		vPortMoving = true;
+
+		double oldVisibleSize = worldSize / this.zoom;
+		double oldTransDueToZoom = (worldSize - oldVisibleSize) / 2;
+		double transXDiff = this.transX - oldTransDueToZoom;
+		double transYDiff = this.transY - oldTransDueToZoom;
+		if (zoom < 1)
+			this.zoom = 1;
+		else if (zoom > 16)
+			this.zoom = 16;
 		else
 			this.zoom = zoom;
-		System.out.println("Zoom: " + this.zoom);
+		double newVisibleSize = worldSize / this.zoom;
+		double newTransDueToZoom = (worldSize - newVisibleSize) / 2;
+		double transX = transXDiff + newTransDueToZoom;
+		double transY = transYDiff + newTransDueToZoom;
+		if (transX < 0)
+			this.transX = 0;
+		else if (transX > worldSize - newVisibleSize)
+			this.transX = worldSize - newVisibleSize;
+		else
+			this.transX = transX;
+		
+		if (transY < 0)
+			this.transY = 0;
+		else if (transY > worldSize - newVisibleSize)
+			this.transY = worldSize - newVisibleSize;
+		else
+			this.transY = transY;
+		
+//		System.out.println("Scale: " + this.zoom/swRatio);
+//		System.out.println("transX: " + this.transX);
+//		System.out.println("transY: " + this.transY);
 		GUIFunctions.refresh();
-		screenMoving = false;
+		
+		vPortMoving = false;
 	}
 
 	public boolean isScreenMoving() {
-		return screenMoving;
+		return vPortMoving;
+	}
+	
+	public AffineTransform getWorldToScreen() {
+		AffineTransform worldToScreen = new AffineTransform();
+		worldToScreen.concatenate(new AffineTransform(zoom/swRatio, 0, 0, zoom/swRatio, 0, 0));
+		worldToScreen.concatenate(new AffineTransform(1, 0, 0, 1, -transX, -transY));
+//		worldToScreen.scale(zoom/swRatio, zoom/swRatio);
+//		worldToScreen.translate(-transX, -transY);
+//		System.out.println("World to Screen");
+//		System.out.println("transX: " + -this.transX);
+//		System.out.println("transY: " + -this.transY);
+//		System.out.println("scale: " + zoom/swRatio);
+		return worldToScreen;
+	}
+	
+	public AffineTransform getScreenToWorld() {
+		AffineTransform screenToWorld = new AffineTransform();
+		screenToWorld.concatenate(new AffineTransform(1, 0, 0, 1, transX, transY));
+		screenToWorld.concatenate(new AffineTransform(swRatio/zoom, 0, 0, swRatio/zoom, 0, 0));
+//		screenToWorld.translate(transX, transY);
+//		screenToWorld.scale(swRatio/zoom, swRatio/zoom);
+//		System.out.println("Screen to World");
+//		System.out.println("scale: " + swRatio/zoom);
+//		System.out.println("transX: " + this.transX);
+//		System.out.println("transY: " + this.transY);
+		return screenToWorld;
 	}
 
+	public double getTransX() {
+		return transX;
+	}
+	
+	public double getTransY() {
+		return transY;
+	}
+
+	public int getScrollBarSize() {
+		return (int) (worldSize / zoom);
+	}
 }

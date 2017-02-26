@@ -70,7 +70,7 @@ public class TriangleClickHandler extends ShapeClickHandler {
 	}
 
 
-	private Shape newTriangle(Color color, Point2D.Double center, Point2D.Double a, Point2D.Double b, Point2D.Double c) {
+	/*private Shape newTriangle(Color color, Point2D.Double center, Point2D.Double a, Point2D.Double b, Point2D.Double c) {
 		Point2D.Double handle = getHandlePosition(a,b);
 		AffineTransform af = new AffineTransform();
 		double angle = getAngle(handle);
@@ -124,7 +124,7 @@ public class TriangleClickHandler extends ShapeClickHandler {
 		double y = yOnAB - yOffset; // * Math.signum(yOnAB);
 		
 		return new Point2D.Double(x, y);
-	}
+	}*/
 	
 	@Override
 	public void clean() {

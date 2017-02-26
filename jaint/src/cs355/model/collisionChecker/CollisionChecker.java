@@ -15,7 +15,7 @@ public class CollisionChecker {
 		DrawingFactory.getWorldToObj(s).transform(worldLoc, shapeLoc);
 		
 		if (s instanceof Line) {
-			double range = 10;
+			double range = DrawingFactory.getHandleRad();
 			double x = shapeLoc.getX();
 			double y = shapeLoc.getY();
 			Line line = (Line) s;
@@ -55,9 +55,9 @@ public class CollisionChecker {
 			Line line = (Line) s;
 			double endX = line.getEnd().getX();
 			double endY = line.getEnd().getY();
-			if (DrawingFactory.newCenteredCircle(0, 0).contains(shapeLoc))
+			if (DrawingFactory.newHandle(0, 0).contains(shapeLoc))
 				return 1;
-			else if (DrawingFactory.newCenteredCircle(endX, endY).contains(shapeLoc))
+			else if (DrawingFactory.newHandle(endX, endY).contains(shapeLoc))
 				return 2;
 		} else {
 			java.awt.Shape drawable = DrawingFactory.createHandleRaw(s);
