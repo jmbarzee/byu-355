@@ -102,7 +102,7 @@ public class DrawingFactory {
 		java.awt.Shape drawableShape = createRaw(s);
 		Color c = s.getColor();
 		g2d.setColor(c);
-		AffineTransform af = TheController.inst().getWorldToScreen();
+		AffineTransform af = TheController.inst().getWorldToViewPort();
 		af.concatenate(getObjToWorld(s));
 		if (s instanceof Line) {
 			Line line = (Line) s;

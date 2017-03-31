@@ -18,10 +18,12 @@ import cs355.controller.clickHandlers.shapeClickHandlers.LineClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.RectangleClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.SquareClickHandler;
 import cs355.controller.clickHandlers.shapeClickHandlers.TriangleClickHandler;
+import cs355.controller.keyHandlers.KeyHandler;
 import cs355.model.collisionChecker.CollisionChecker;
 import cs355.model.drawing.Shape;
 import cs355.model.drawing.Square;
 import cs355.model.drawing.TheModel;
+import cs355.model.scene.CS355Scene;
 
 public class TheController implements CS355Controller, MouseListener, MouseMotionListener{
 
@@ -35,24 +37,47 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 		return TheController.inst;
 	}
 	
-	private TheController() {
-		color = new Color(0);
-		handler = new LineClickHandler(this);
-		selShapePos = null;
-		transX = (worldSize - (worldSize / swRatio)) / 2;
-		transY = (worldSize - (worldSize / swRatio)) / 2;
-		zoom = swRatio;
-		vPortMoving = false;
-	}
-	
-	private ClickHandler handler;
 	private Color color;
 	private Integer selShapePos;
+	
 	private double transX;
 	private double transY;
 	private double zoom;
 	private boolean vPortMoving;
 	
+	private boolean displayScene;
+
+	private CS355Scene scene;
+	private Camera camera;
+
+	public Camera getCamera() {
+		return camera;
+	}
+
+	public boolean shouldDisplayScene() {
+		return displayScene;
+	}
+
+	private ClickHandler clickHandler;
+	private KeyHandler keyHandler;
+	
+	private TheController() {
+		color = new Color(0);
+		selShapePos = null;
+		
+		transX = (worldSize - (worldSize / swRatio)) / 2;
+		transY = (worldSize - (worldSize / swRatio)) / 2;
+		zoom = swRatio;
+		vPortMoving = false;
+		
+		displayScene = false;
+		scene = new CS355Scene();
+		camera = new Camera(this);
+		
+		keyHandler = new KeyHandler(camera);
+		clickHandler = new LineClickHandler(this);
+	}
+
 	public Integer checkHandle(Point2D.Double loc) {
 		if (selShapePos == null)
 			return null;
@@ -60,57 +85,57 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	}
 	
 	private void swapHandler(ClickHandler h) {
-		handler.clean();
-		handler = h;
+		clickHandler.clean();
+		clickHandler = h;
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (handler == null)
+		if (clickHandler == null)
 			return;
-		handler.mouseClicked(pointFromEvent(e));
+		clickHandler.mouseClicked(pointFromEvent(e));
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (handler == null)
+		if (clickHandler == null)
 			return;
-		handler.mousePressed(pointFromEvent(e));
+		clickHandler.mousePressed(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (handler == null)
+		if (clickHandler == null)
 			return;
-		handler.mouseReleased(pointFromEvent(e));
+		clickHandler.mouseReleased(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		if (handler == null)
+		if (clickHandler == null)
 			return;
-		handler.mouseEntered(pointFromEvent(e));
+		clickHandler.mouseEntered(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		if (handler == null)
+		if (clickHandler == null)
 			return;
-		handler.mouseExited(pointFromEvent(e));
+		clickHandler.mouseExited(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (handler == null)
+		if (clickHandler == null)
 			return;
-		handler.mouseDragged(pointFromEvent(e));
+		clickHandler.mouseDragged(pointFromEvent(e));
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (handler == null)
+		if (clickHandler == null)
 			return;
-		handler.mouseMoved(pointFromEvent(e));
+		clickHandler.mouseMoved(pointFromEvent(e));
 	}
 
 	@Override
@@ -202,20 +227,29 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 
 	@Override
 	public void openScene(File file) {
-		// TODO Auto-generated method stub
-		
+		scene.open(file);
+	}
+	
+	public CS355Scene getScene() {
+		return scene;
 	}
 
 	@Override
 	public void toggle3DModelDisplay() {
-		// TODO Auto-generated method stub
-		
+		if (displayScene) {
+			displayScene = false;
+		} else {
+			displayScene = true;
+		}
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void keyPressed(Iterator<Integer> iterator) {
-		// TODO Auto-generated method stub
-		
+		for (Iterator<Integer> it = iterator; it.hasNext();) {
+			keyHandler.handleKey(it.next());
+		}
+		GUIFunctions.refresh();
 	}
 
 	@Override
@@ -396,10 +430,6 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 			this.transY = worldSize - newVisibleSize;
 		else
 			this.transY = transY;
-		
-//		System.out.println("Scale: " + this.zoom/swRatio);
-//		System.out.println("transX: " + this.transX);
-//		System.out.println("transY: " + this.transY);
 		GUIFunctions.refresh();
 		
 		vPortMoving = false;
@@ -409,16 +439,10 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 		return vPortMoving;
 	}
 	
-	public AffineTransform getWorldToScreen() {
+	public AffineTransform getWorldToViewPort() {
 		AffineTransform worldToScreen = new AffineTransform();
 		worldToScreen.concatenate(new AffineTransform(zoom/swRatio, 0, 0, zoom/swRatio, 0, 0));
 		worldToScreen.concatenate(new AffineTransform(1, 0, 0, 1, -transX, -transY));
-//		worldToScreen.scale(zoom/swRatio, zoom/swRatio);
-//		worldToScreen.translate(-transX, -transY);
-//		System.out.println("World to Screen");
-//		System.out.println("transX: " + -this.transX);
-//		System.out.println("transY: " + -this.transY);
-//		System.out.println("scale: " + zoom/swRatio);
 		return worldToScreen;
 	}
 	
@@ -426,12 +450,6 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 		AffineTransform screenToWorld = new AffineTransform();
 		screenToWorld.concatenate(new AffineTransform(1, 0, 0, 1, transX, transY));
 		screenToWorld.concatenate(new AffineTransform(swRatio/zoom, 0, 0, swRatio/zoom, 0, 0));
-//		screenToWorld.translate(transX, transY);
-//		screenToWorld.scale(swRatio/zoom, swRatio/zoom);
-//		System.out.println("Screen to World");
-//		System.out.println("scale: " + swRatio/zoom);
-//		System.out.println("transX: " + this.transX);
-//		System.out.println("transY: " + this.transY);
 		return screenToWorld;
 	}
 
