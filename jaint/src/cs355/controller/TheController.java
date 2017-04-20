@@ -23,6 +23,7 @@ import cs355.model.collisionChecker.CollisionChecker;
 import cs355.model.drawing.Shape;
 import cs355.model.drawing.Square;
 import cs355.model.drawing.TheModel;
+import cs355.model.image.Pic;
 import cs355.model.scene.CS355Scene;
 
 public class TheController implements CS355Controller, MouseListener, MouseMotionListener{
@@ -46,17 +47,11 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	private boolean vPortMoving;
 	
 	private boolean displayScene;
-
 	private CS355Scene scene;
 	private Camera camera;
 
-	public Camera getCamera() {
-		return camera;
-	}
-
-	public boolean shouldDisplayScene() {
-		return displayScene;
-	}
+	private boolean displayPic;
+	private Pic pic;
 
 	private ClickHandler clickHandler;
 	private KeyHandler keyHandler;
@@ -74,8 +69,29 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 		scene = new CS355Scene();
 		camera = new Camera(this);
 		
+		displayPic = false;
+		pic = null;
+		
 		keyHandler = new KeyHandler(camera);
 		clickHandler = new LineClickHandler(this);
+	}
+
+	public Camera getCamera() {
+		return camera;
+	}
+
+	public boolean shouldDisplayScene() {
+		return displayScene;
+	}
+	
+	public boolean shouldDisplayPic() {
+		if (pic == null)
+			return false;
+		return displayPic;
+	}
+	
+	public Pic getPic() {
+		return pic;
 	}
 
 	public Integer checkHandle(Point2D.Double loc) {
@@ -236,11 +252,7 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 
 	@Override
 	public void toggle3DModelDisplay() {
-		if (displayScene) {
-			displayScene = false;
-		} else {
-			displayScene = true;
-		}
+		displayScene = !displayScene;
 		GUIFunctions.refresh();
 	}
 
@@ -254,16 +266,21 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 
 	@Override
 	public void openImage(File file) {
+		pic = new Pic();
+		pic.open(file);
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void saveImage(File file) {
+		if (pic != null)
+			pic.save(file);
 	}
 
 	@Override
 	public void toggleBackgroundDisplay() {
-		// TODO Auto-generated method stub
-		
+		displayPic = !displayPic;
+		GUIFunctions.refresh();
 	}
 
 	@Override
@@ -289,44 +306,58 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 
 	@Override
 	public void doEdgeDetection() {
-		// TODO Auto-generated method stub
-		
+		if (pic == null)
+			return;
+		pic.doEdgeDetection();
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void doSharpen() {
-		// TODO Auto-generated method stub
-		
+		if (pic == null)
+			return;
+		pic.sharpen();
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void doMedianBlur() {
-		// TODO Auto-generated method stub
-		
+		if (pic == null)
+			return;
+		pic.medianBlur();
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void doUniformBlur() {
-		// TODO Auto-generated method stub
-		
+		if (pic == null)
+			return;
+		pic.uniformBlur();
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void doGrayscale() {
-		// TODO Auto-generated method stub
-		
+		if (pic == null)
+			return;
+		pic.grayscale();
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void doChangeContrast(int contrastAmountNum) {
-		// TODO Auto-generated method stub
-		
+		if (pic == null)
+			return;
+		pic.contrast(contrastAmountNum);
+		GUIFunctions.refresh();
 	}
 
 	@Override
 	public void doChangeBrightness(int brightnessAmountNum) {
-		// TODO Auto-generated method stub
-		
+		if (pic == null)
+			return;
+		pic.brightness(brightnessAmountNum);
+		GUIFunctions.refresh();
 	}
 
 	@Override
@@ -392,7 +423,7 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 	private Point2D.Double pointFromEvent(MouseEvent e) {
 		Point2D.Double sLoc = new Point2D.Double(e.getX(), e.getY());
 		Point2D.Double wLoc = new Point2D.Double();
-		getScreenToWorld().transform(sLoc, wLoc);
+		getViewPortToWorld().transform(sLoc, wLoc);
 		return wLoc;
 	}
 
@@ -446,7 +477,7 @@ public class TheController implements CS355Controller, MouseListener, MouseMotio
 		return worldToScreen;
 	}
 	
-	public AffineTransform getScreenToWorld() {
+	public AffineTransform getViewPortToWorld() {
 		AffineTransform screenToWorld = new AffineTransform();
 		screenToWorld.concatenate(new AffineTransform(1, 0, 0, 1, transX, transY));
 		screenToWorld.concatenate(new AffineTransform(swRatio/zoom, 0, 0, swRatio/zoom, 0, 0));

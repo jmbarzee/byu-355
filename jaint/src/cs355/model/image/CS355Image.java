@@ -50,7 +50,7 @@ public abstract class CS355Image extends Observable {
 	/**
 	 * Called from the controller to do edge detection.
 	 */
-	public abstract void edgeDetection();
+	public abstract void doEdgeDetection();
 
 	/**
 	 * Called from the controller to do a sharpen operation.
