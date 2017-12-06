@@ -359,7 +359,7 @@ public class Pic extends CS355Image {
 	public void brightness(int change) {
 		int[] rgb = new int[3];
 		float[] hsb = new float[3];
-		int h = getHeight();
+		int h = this.getHeight();
 		int w = getWidth();
 		
 		int argb = 0;
